@@ -1,1 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }} | Мой блог</title>
+    <link rel="stylesheet" href="{% static 'post_detail.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="site-title">Мой блог</h1>
+            <p class="site-subtitle">Добро пожаловать в мой блог!</p>
+        </div>
+    </header>
 
+    <main class="container">
+        <article class="post">
+            {% if post.image %}
+                <div class="post-image">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                </div>
+            {% endif %}
+            <div class="post-content">
+                <h2 class="post-title">{{ post.title }}</h2>
+                <p class="post-text">{{ post.content }}</p>
+                <p class="post-meta">
+                    Автор: <strong>{{ post.author }}</strong> |
+                    Дата публикации: {{ post.created_at|date:"d.m.Y" }}
+                </p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; {{ now|date:"Y" }} Мой блог. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>
