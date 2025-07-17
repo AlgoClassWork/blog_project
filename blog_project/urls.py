@@ -23,8 +23,10 @@ from blog.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #http://127.0.0.1:8000/
+    # http://127.0.0.1:8000/
     path('', post_list, name='post_list' ),
+    # http://127.0.0.1:8000/detail/3
+    path('detail/<int:id>/', post_detail, name='post_detail')
 ]
 
 if settings.DEBUG:
