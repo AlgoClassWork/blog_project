@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from blog.views import *
 
@@ -24,3 +26,6 @@ urlpatterns = [
     #http://127.0.0.1:8000/
     path('', post_list, name='post_list' ),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT )
