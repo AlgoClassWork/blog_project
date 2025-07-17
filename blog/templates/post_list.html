@@ -28,6 +28,7 @@
                     Автор: <strong>{{ post.author }}</strong> |
                     Дата: {{ post.created_at|date:"d.m.Y" }}
                 </p>
+                <a href="{% url 'post_detail' id=post.id %}"> Подробнее </a>
             </div>
         </article>
         {% endfor %}
