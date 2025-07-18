@@ -11,6 +11,11 @@
     <header class="site-header">
         <div class="container">
             <h1>Добро пожаловать в мой блог</h1>
+            {% if user.is_authenticated %}
+                <p> Привет {{ user.username }} </p>
+            {% else %}
+                <a href="{% url 'register' %}"> Регистрация </a>
+            {% endif %}
         </div>
     </header>
 
