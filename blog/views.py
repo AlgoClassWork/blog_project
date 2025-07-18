@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 
 from blog.models import Post
@@ -21,4 +21,10 @@ def post_detail(request, id):
 def register(request):
     form = UserRegisterForm()
     context = {'form' : form}
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            return redirect('post_list')
+
     return render(request, 'register.html', context)
