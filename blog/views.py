@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 
+
 from blog.models import Post
+from .forms import UserRegisterForm
 
 # Create your views here.
 # http://127.0.0.1:8000/
@@ -15,3 +17,8 @@ def post_detail(request, id):
     context = {'post' : post}
     return render(request, 'post_detail.html', context )
 
+# http://127.0.0.1:8000/register/
+def register(request):
+    form = UserRegisterForm()
+    context = {'form' : form}
+    return render(request, 'register.html', context)
