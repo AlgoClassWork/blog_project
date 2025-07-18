@@ -31,7 +31,7 @@ urlpatterns = [
     # http://127.0.0.1:8000/login/
     path('login/', views.LoginView.as_view(template_name='login.html'), name='login'),
     # http://127.0.0.1:8000/logout/
-    path('logout/', views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
     # http://127.0.0.1:8000/detail/3
     path('detail/<int:id>/', post_detail, name='post_detail')
 ]
