@@ -12,6 +12,9 @@
         <div class="container">
             <h1 class="site-title"> <a href="{% url 'post_list' %}"> Мой блог </a> </h1>
             <p class="site-subtitle">Добро пожаловать в мой блог!</p>
+            {% if user == post.author %}
+                <a href=" {% url 'post_update' id=post.id %} "> Редактировать </a>
+            {% endif %}
         </div>
     </header>
 
