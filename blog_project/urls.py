@@ -33,7 +33,9 @@ urlpatterns = [
     # http://127.0.0.1:8000/logout/
     path('logout/', views.LogoutView.as_view(), name='logout'),
     # http://127.0.0.1:8000/detail/3
-    path('detail/<int:id>/', post_detail, name='post_detail')
+    path('detail/<int:id>/', post_detail, name='post_detail'),
+    # http://127.0.0.1:8000/create/
+    path('create/', post_create, name='post_create')
 ]
 
 if settings.DEBUG:
