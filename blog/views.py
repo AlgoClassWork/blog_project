@@ -35,6 +35,25 @@ def post_create(request):
 
     return render(request, 'post_form.html', context)
 
+# http://127.0.0.1:8000/update/5
+@login_required
+def post_update(request, id):
+    post = get_object_or_404(Post, id=id)
+    form = PostForm(instance=post)
+    context = {'form' : form}
+
+    if post.author != request.user:
+        return redirect('post_list')
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', id=post.id)
+
+
+    return render(request, 'post_form.html', context)
+
 # http://127.0.0.1:8000/register/
 def register(request):
     form = UserRegisterForm()
