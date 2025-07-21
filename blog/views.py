@@ -18,6 +18,10 @@ def post_detail(request, id):
     context = {'post' : post}
     return render(request, 'post_detail.html', context )
 
+# http://127.0.0.1:8000/create/
+def post_create(request):
+    return render(request, 'post_form.html')
+
 # http://127.0.0.1:8000/register/
 def register(request):
     form = UserRegisterForm()
