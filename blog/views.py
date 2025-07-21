@@ -1,14 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 
 
+
 from blog.models import Post
-from .forms import UserRegisterForm
+from .forms import PostForm, UserRegisterForm
 
 # Create your views here.
 # http://127.0.0.1:8000/
 def post_list(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-created_at')
     context = {'posts' : posts}
     return render(request, 'post_list.html', context )
 
@@ -19,8 +21,19 @@ def post_detail(request, id):
     return render(request, 'post_detail.html', context )
 
 # http://127.0.0.1:8000/create/
+@login_required
 def post_create(request):
-    return render(request, 'post_form.html')
+    form = PostForm()
+    context = {'form' : form}
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('post_detail', id=post.id)
+
+    return render(request, 'post_form.html', context)
 
 # http://127.0.0.1:8000/register/
 def register(request):
