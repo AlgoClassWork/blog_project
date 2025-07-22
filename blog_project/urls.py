@@ -38,6 +38,8 @@ urlpatterns = [
     path('create/', post_create, name='post_create'),
     # http://127.0.0.1:8000/update/5
     path('update/<int:id>/', post_update, name='post_update'),
+    # http://127.0.0.1:8000/delete/10
+    path('delete/<int:id>/', post_delete, name='post_delete'),
 ]
 
 if settings.DEBUG:
