@@ -37,7 +37,8 @@
                 <h2 class="post-title">{{ post.title }}</h2>
                 <p class="post-meta">
                     Автор: <strong>{{ post.author }}</strong> |
-                    Дата: {{ post.created_at|date:"d.m.Y" }}
+                    Дата: {{ post.created_at|date:"d.m.Y" }} |
+                    Просмотры {{ post.view_count }}
                 </p>
                 <a href="{% url 'post_detail' id=post.id %}"> Подробнее </a>
             </div>
