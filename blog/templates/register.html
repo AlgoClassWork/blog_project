@@ -1,5 +1,48 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <button> Зарегестрироваться </button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | Мой блог</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="site-title"><a href="{% url 'post_list' %}">Мой блог</a></h1>
+            <p class="site-subtitle">Добро пожаловать в мой блог!</p>
+            <nav class="main-nav">
+                {% if user.is_authenticated %}
+                    <span class="welcome-message">Привет, {{ user.username }}!</span>
+                    <a href="{% url 'post_create' %}" class="button button-success">Создать пост</a>
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button button-secondary">Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="button button-primary">Войти</a>
+                    <a href="{% url 'register' %}" class="button button-secondary">Регистрация</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <h2>Регистрация</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="button button-primary">Зарегистрироваться</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; {{ now|date:"Y" }} Мой блог. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>

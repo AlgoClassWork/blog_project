@@ -5,35 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ post.title }} | Мой блог</title>
-    <link rel="stylesheet" href="{% static 'post_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     <header class="site-header">
         <div class="container">
-            <h1 class="site-title"> <a href="{% url 'post_list' %}"> Мой блог </a> </h1>
+            <h1 class="site-title"><a href="{% url 'post_list' %}">Мой блог</a></h1>
             <p class="site-subtitle">Добро пожаловать в мой блог!</p>
-            {% if user == post.author %}
-                <a href=" {% url 'post_update' id=post.id %} "> Редактировать </a>
-                <a href=" {% url 'post_delete' id=post.id %} "> Удалить </a>
-            {% endif %}
+            <nav class="main-nav">
+                {% if user.is_authenticated %}
+                    <span class="welcome-message">Привет, {{ user.username }}!</span>
+                    <a href="{% url 'post_create' %}" class="button button-success">Создать пост</a>
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button button-secondary">Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="button button-primary">Войти</a>
+                    <a href="{% url 'register' %}" class="button button-secondary">Регистрация</a>
+                {% endif %}
+            </nav>
         </div>
     </header>
 
     <main class="container">
-        <article class="post">
+        <article class="post-detail">
             {% if post.image %}
-                <div class="post-image">
-                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
-                </div>
+            <div class="post-detail-image">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+            </div>
             {% endif %}
-            <div class="post-content">
-                <h2 class="post-title">{{ post.title }}</h2>
-                <p class="post-text">{{ post.content }}</p>
-                <p class="post-meta">
+            <div class="post-detail-content">
+                <h1 class="post-detail-title">{{ post.title }}</h1>
+                <p class="post-detail-meta">
                     Автор: <strong>{{ post.author }}</strong> |
                     Дата публикации: {{ post.created_at|date:"d.m.Y" }} |
-                    Просмотры {{ post.view_count }}
+                    Просмотры: {{ post.view_count }}
                 </p>
+                <div class="post-detail-text">
+                    {{ post.content|linebreaksbr }}
+                </div>
+                {% if user == post.author %}
+                <div class="post-actions">
+                    <a href="{% url 'post_update' id=post.id %}" class="button button-edit">Редактировать</a>
+                    <a href="{% url 'post_delete' id=post.id %}" class="button button-danger">Удалить</a>
+                </div>
+                {% endif %}
             </div>
         </article>
     </main>

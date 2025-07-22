@@ -5,45 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой блог</title>
-    <link rel="stylesheet" href="{% static 'post_list.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     <header class="site-header">
         <div class="container">
-            <h1>Добро пожаловать в мой блог</h1>
-            {% if user.is_authenticated %}
-                <p> Привет {{ user.username }} </p>
-                <form action="{% url 'logout' %}" method="post"> 
-                    {% csrf_token %}
-                    <button> Выйти </button>
-                </form>
-                <a href="{% url 'post_create' %}"> Создать пост </a>
-            {% else %}
-                <a href="{% url 'login' %}"> Войти </a>
-                <a href="{% url 'register' %}"> Регистрация </a>
-            {% endif %}
+            <h1 class="site-title"><a href="{% url 'post_list' %}">Мой блог</a></h1>
+            <p class="site-subtitle">Добро пожаловать в мой блог!</p>
+            <nav class="main-nav">
+                {% if user.is_authenticated %}
+                    <span class="welcome-message">Привет, {{ user.username }}!</span>
+                    <a href="{% url 'post_create' %}" class="button button-success">Создать пост</a>
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button button-secondary">Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="button button-primary">Войти</a>
+                    <a href="{% url 'register' %}" class="button button-secondary">Регистрация</a>
+                {% endif %}
+            </nav>
         </div>
     </header>
 
     <main class="container">
-        {% for post in posts %}
-        <article class="post-card">
-            {% if post.image %}
-                <div class="post-image">
+        <div class="posts-grid">
+            {% for post in posts %}
+            <article class="post-card">
+                {% if post.image %}
+                <div class="post-card-image">
                     <img src="{{ post.image.url }}" alt="{{ post.title }}">
                 </div>
-            {% endif %}
-            <div class="post-content">
-                <h2 class="post-title">{{ post.title }}</h2>
-                <p class="post-meta">
-                    Автор: <strong>{{ post.author }}</strong> |
-                    Дата: {{ post.created_at|date:"d.m.Y" }} |
-                    Просмотры {{ post.view_count }}
-                </p>
-                <a href="{% url 'post_detail' id=post.id %}"> Подробнее </a>
-            </div>
-        </article>
-        {% endfor %}
+                {% endif %}
+                <div class="post-card-content">
+                    <h2 class="post-card-title"><a href="{% url 'post_detail' id=post.id %}">{{ post.title }}</a></h2>
+                    <p class="post-card-meta">
+                        Автор: <strong>{{ post.author }}</strong> |
+                        Дата: {{ post.created_at|date:"d.m.Y" }} |
+                        Просмотры: {{ post.view_count }}
+                    </p>
+                    <a href="{% url 'post_detail' id=post.id %}" class="button button-link">Подробнее</a>
+                </div>
+            </article>
+            {% empty %}
+            <p class="no-posts-message">Пока нет опубликованных постов.</p>
+            {% endfor %}
+        </div>
     </main>
 
     <footer class="site-footer">
