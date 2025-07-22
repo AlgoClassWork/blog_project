@@ -51,8 +51,18 @@ def post_update(request, id):
             form.save()
             return redirect('post_detail', id=post.id)
 
-
     return render(request, 'post_form.html', context)
+
+# http://127.0.0.1:8000/delete/10
+@login_required
+def post_delete(request, id):
+    post = get_object_or_404(Post, id=id)
+
+    if post.author != request.user:
+        return redirect('post_list')
+
+    post.delete()
+    return redirect('post_list')
 
 # http://127.0.0.1:8000/register/
 def register(request):
