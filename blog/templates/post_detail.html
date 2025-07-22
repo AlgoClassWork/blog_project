@@ -14,6 +14,7 @@
             <p class="site-subtitle">Добро пожаловать в мой блог!</p>
             {% if user == post.author %}
                 <a href=" {% url 'post_update' id=post.id %} "> Редактировать </a>
+                <a href=" {% url 'post_delete' id=post.id %} "> Удалить </a>
             {% endif %}
         </div>
     </header>
