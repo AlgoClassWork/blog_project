@@ -60,9 +60,12 @@ def post_delete(request, id):
 
     if post.author != request.user:
         return redirect('post_list')
+    
+    if request.method == 'POST':
+        post.delete()
+        return redirect('post_list')
 
-    post.delete()
-    return redirect('post_list')
+    return render(request, 'post_delete.html')
 
 # http://127.0.0.1:8000/register/
 def register(request):
