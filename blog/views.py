@@ -17,6 +17,8 @@ def post_list(request):
 # http://127.0.0.1:8000/detail/3
 def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
+    post.view_count += 1
+    post.save( update_fields=['view_count'] )
     context = {'post' : post}
     return render(request, 'post_detail.html', context )
 
